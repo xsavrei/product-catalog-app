@@ -1,16 +1,10 @@
 import { Component } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { Subscription } from 'rxjs';
-import {
-  PartialRootState,
-  ProductCatalogActions,
-  ProductCatalogState,
-  selectAllCategories,
-  selectAllProducts,
-  selectState
-} from '../../store';
+import { Observable, Subscription } from 'rxjs';
+import { PartialRootState, selectActiveCategoryById, selectAllCategories } from '../../store';
 import { Category, Product } from '../../domain/main.domain';
 import { Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
 
 @UntilDestroy({ arrayName: 'subscriptions' })
 @Component({
@@ -23,23 +17,23 @@ export class MainPageComponent {
   private subscriptions?: Subscription[];
 
   categories?: Category[];
-  products?: Product[];
-  state?: ProductCatalogState;
-
+  activeCategory?: Observable<string | undefined>;
   currentCategoryId?: string;
 
-  constructor(private store: Store<PartialRootState>) {
-    this.store.dispatch(ProductCatalogActions.actions.getCategories());
-    this.store.dispatch(ProductCatalogActions.actions.getProducts());
+  productsToDisplay?: Product[];
+
+  constructor(private store: Store<PartialRootState>, private route: ActivatedRoute) {
 
     this.subscriptions = [
-      this.store.select(selectState).subscribe(res => this.state = res),
-      this.store.select(selectAllProducts).subscribe(res => {
-        this.products = res
-      }),
       this.store.select(selectAllCategories).subscribe(res => {
         this.categories = res
-      })
+      }),
+      this.route.params.subscribe(params => {
+          this.currentCategoryId = params['categoryId'];
+          this.activeCategory = this.store.select(selectActiveCategoryById(this.currentCategoryId))
+        }
+      )
     ];
   }
 }
+

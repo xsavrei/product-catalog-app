@@ -21,5 +21,11 @@ export const actions = {
   getProductsSuccess: createAction(
     actionTag('API get products SUCCESS'),
     props<{ response: Category[] }>()
+  ),
+
+  deleteProductById: createAction(
+    actionTag('remove product by id from store'),
+    props<{ id: string }>()
   )
+
 }

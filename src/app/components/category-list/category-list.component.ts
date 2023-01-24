@@ -2,8 +2,8 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Category } from '../../domain/main.domain';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Router } from '@angular/router';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 interface CategoryNode {
   id: string;
@@ -31,8 +31,9 @@ export class CategoryListComponent implements OnChanges {
 
   @Input()
   categories?: Category[];
-
+  @Input()
   currentCategoryId?: string;
+
   treeData?: CategoryNode[] | undefined;
 
   private _transformer = (node: CategoryNode, level: number) => {
@@ -59,14 +60,11 @@ export class CategoryListComponent implements OnChanges {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private router: Router, private route: ActivatedRoute) {
-    this.route.params.pipe(untilDestroyed(this)).subscribe(params => {
-      this.currentCategoryId = params['id'];
-    })
+  constructor(private router: Router) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['categories'].currentValue) {
+    if (changes['categories']?.currentValue) {
       this.treeData = this.mapToCategoriesNodes(this.categories);
       this.treeData?.push(<CategoryNode> { id: '', name: 'All Categories' });
       this.treeData?.sort((a, b) => a.name.localeCompare(b.name))
@@ -98,12 +96,12 @@ export class CategoryListComponent implements OnChanges {
   }
 
   getActiveCategory(id: string): boolean {
-    return id === this.currentCategoryId;
+    return id === this.currentCategoryId ? id === this.currentCategoryId : !this.currentCategoryId && !id;
   }
 
 
   onClick(id: string) {
-    this.router.navigate([`/product/${id}`]);
+    this.router.navigate([id]);
   }
 }
 

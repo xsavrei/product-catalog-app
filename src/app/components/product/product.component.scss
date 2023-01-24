@@ -1,0 +1,22 @@
+.card {
+  max-width: 18rem;
+  margin: 1rem;
+}
+
+.card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bi {
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+.product-price {
+  margin-top: 0.5rem;
+}
+
+.product-price p {
+  text-align: right;
+}

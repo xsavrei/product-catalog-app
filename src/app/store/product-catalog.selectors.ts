@@ -13,14 +13,19 @@ export const selectAllCategories = createSelector(
   (state: ProductCatalogState) => state.categories
 );
 
+export const selectActiveCategoryById = (id: string | undefined) => createSelector(
+  selectProductCatalogState,
+  (state: ProductCatalogState) => state.categories?.find(category => category.id === id)?.name
+);
+
 export const selectAllProducts = createSelector(
   selectProductCatalogState,
   (state: ProductCatalogState) => state.products
 );
 
-export const selectProductsByCategoryId = (id: string) => createSelector(
+export const selectProductsByCategoryId = (id: string | undefined) => createSelector(
   selectProductCatalogState,
   (state: ProductCatalogState) => {
-    return state.products?.filter((product) => product.id === id);
+    return state.products?.filter((product) => product.categoryId === id);
   }
 )

@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Product } from '../../domain/main.domain';
+import { PartialRootState, ProductCatalogActions } from '../../store';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-product',
@@ -7,4 +10,14 @@ import { Component } from '@angular/core';
 })
 export class ProductComponent {
 
+  @Input()
+  product?: Product;
+
+  constructor(private store: Store<PartialRootState>) {}
+
+  onClickDelete(id: string | undefined) {
+    if (id) {
+      this.store.dispatch(ProductCatalogActions.actions.deleteProductById({ id: id }));
+    }
+  }
 }

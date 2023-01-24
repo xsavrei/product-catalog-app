@@ -1,11 +1,8 @@
-a {
-  cursor: pointer;
-}
-
 mat-tree-node:hover {
   border: 1px solid rgba(0,0,0,.12);
   border-radius: 4px;
   background: #dbdbdb;
+  cursor: pointer;
 }
 
 mat-tree-node:active {
@@ -18,4 +15,8 @@ mat-tree-node:active {
   border: 1px solid rgba(0,0,0,.12);
   border-radius: 4px;
   background: #d2d2d2;
+}
+
+.category-list {
+  min-width: 250px;
 }

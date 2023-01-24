@@ -7,7 +7,7 @@ const routes: Routes = [
     path: '',
     component: MainPageComponent
   }, {
-    path: 'product/:id',
+    path: ':categoryId',
     component: MainPageComponent
   }, {
     path: '**',

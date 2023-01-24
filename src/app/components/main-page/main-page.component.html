@@ -1,11 +1,15 @@
 <div class="row">
   <div class="col-md-2 col-sm-12 ">
-    <!--    <pre>{{ categories | json }}</pre>-->
+    <h5 class="card-title"> Products list</h5>
     <app-category-list
-      [categories]="categories">
+      [categories]="categories"
+      [currentCategoryId]="currentCategoryId">
     </app-category-list>
   </div>
   <div class="col-md-10 col-sm-12">
-    <pre>{{ products | json }}</pre>
+    <h5 class="card-title">{{ (activeCategory | async) ?? 'All Products' }}</h5>
+    <app-products-list
+      [categoryId]="currentCategoryId">
+    </app-products-list>
   </div>
 </div>
