@@ -4,15 +4,14 @@ import { MainPageComponent } from './components';
 
 const routes: Routes = [
   {
-    path: 'main-page',
+    path: '',
     component: MainPageComponent
   }, {
-    path: '',
-    redirectTo: '/main-page',
-    pathMatch: 'full'
+    path: 'product/:id',
+    component: MainPageComponent
   }, {
     path: '**',
-    redirectTo: '/main-page'
+    redirectTo: ''
   }
 ];
 
@@ -20,4 +19,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

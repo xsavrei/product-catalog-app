@@ -18,10 +18,12 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -48,10 +50,12 @@ import { MatButtonModule } from '@angular/material/button';
       maxAge: 25,
     }),
     NgbModule,
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     MatTreeModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]

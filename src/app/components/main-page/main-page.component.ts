@@ -26,10 +26,11 @@ export class MainPageComponent {
   products?: Product[];
   state?: ProductCatalogState;
 
+  currentCategoryId?: string;
+
   constructor(private store: Store<PartialRootState>) {
     this.store.dispatch(ProductCatalogActions.actions.getCategories());
     this.store.dispatch(ProductCatalogActions.actions.getProducts());
-
 
     this.subscriptions = [
       this.store.select(selectState).subscribe(res => this.state = res),

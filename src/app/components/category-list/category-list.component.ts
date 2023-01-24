@@ -2,10 +2,13 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Category } from '../../domain/main.domain';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 interface CategoryNode {
   id: string;
   name: string;
+  parentCategoryId?: string;
   children?: CategoryNode[];
 }
 
@@ -15,8 +18,10 @@ interface FlatNode {
   name: string;
   level: number;
   id: string;
+  parentCategoryId?: string;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
@@ -26,14 +31,17 @@ export class CategoryListComponent implements OnChanges {
 
   @Input()
   categories?: Category[];
+
+  currentCategoryId?: string;
   treeData?: CategoryNode[] | undefined;
 
   private _transformer = (node: CategoryNode, level: number) => {
-    return {
+    return <FlatNode> {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
       level: level,
-      id: node.id
+      id: node.id,
+      parentCategoryId: node.parentCategoryId
     };
   };
 
@@ -51,18 +59,51 @@ export class CategoryListComponent implements OnChanges {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.route.params.pipe(untilDestroyed(this)).subscribe(params => {
+      this.currentCategoryId = params['id'];
+    })
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['categories'].currentValue) {
-      this.treeData = this.findChildrenCategories(this.categories);
+      this.treeData = this.mapToCategoriesNodes(this.categories);
+      this.treeData?.push(<CategoryNode> { id: '', name: 'All Categories' });
+      this.treeData?.sort((a, b) => a.name.localeCompare(b.name))
       this.dataSource.data = this.treeData ?? [];
+    }
+    if (this.currentCategoryId && this.treeControl.dataNodes) {
+      this.expandFlatNodes(this.currentCategoryId);
     }
   }
 
   hasChild = (_: number, node: FlatNode) => node.expandable;
 
-  findChildrenCategories(arr: Category[] | undefined, parentCategoryId: string | undefined | null = null): CategoryNode[] | undefined {
+  mapToCategoriesNodes(arr: Category[] | undefined, parentCategoryId: string | undefined | null = null): CategoryNode[] | undefined {
     return arr?.filter((category) => category?.parentCategoryId === parentCategoryId)
-      .map(child => (<CategoryNode> { ...child, children: this.findChildrenCategories(arr, child.id) }));
+      .map(child => (<CategoryNode> {
+        ...child,
+        children: this.mapToCategoriesNodes(arr, child.id)
+      }));
+  }
+
+  expandFlatNodes(id: string) {
+    const currentFlatNode = this.treeControl.dataNodes.find(node => node.id === id);
+    if (currentFlatNode) {
+      this.treeControl.expand(currentFlatNode);
+    }
+    if (currentFlatNode?.parentCategoryId) {
+      this.expandFlatNodes(currentFlatNode.parentCategoryId);
+    }
+  }
+
+  getActiveCategory(id: string): boolean {
+    return id === this.currentCategoryId;
+  }
+
+
+  onClick(id: string) {
+    this.router.navigate([`/product/${id}`]);
   }
 }
 
