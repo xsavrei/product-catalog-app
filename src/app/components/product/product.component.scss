@@ -9,10 +9,11 @@
   text-overflow: ellipsis;
 }
 
-.bi {
-  margin-bottom: 0.5rem;
+.card-title:hover {
   cursor: pointer;
+  text-decoration: underline;
 }
+
 .product-price {
   margin-top: 0.5rem;
 }

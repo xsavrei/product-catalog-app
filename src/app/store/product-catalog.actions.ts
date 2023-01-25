@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Category } from '../domain/main.domain';
+import { Category, Product } from '../domain/main.domain';
 
 const actionTag = (action: string) => '[PC] - ' + action;
 
@@ -20,12 +20,17 @@ export const actions = {
 
   getProductsSuccess: createAction(
     actionTag('API get products SUCCESS'),
-    props<{ response: Category[] }>()
+    props<{ response: Product[] }>()
   ),
 
   deleteProductById: createAction(
     actionTag('remove product by id from store'),
     props<{ id: string }>()
-  )
+  ),
+
+  editProduct: createAction(
+    actionTag('save edited product'),
+    props<{ productEdited: Product }>()
+  ),
 
 }

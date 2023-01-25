@@ -7,9 +7,17 @@
     </app-category-list>
   </div>
   <div class="col-md-10 col-sm-12">
-    <h5 class="card-title">{{ (activeCategory | async) ?? 'All Products' }}</h5>
+    <div class="d-flex justify-content-between">
+      <h5 class="card-title">{{ (activeCategory | async) ?? 'All Products' }}</h5>
+      <select class="form-select" (change)="onSortingOptionChange(sort.value)" #sort>
+        <option selected>Sorting options</option>
+        <option [value]="sortingOptions.NAME">Name</option>
+        <option [value]="sortingOptions.PRICE">Price</option>
+      </select>
+    </div>
     <app-products-list
-      [categoryId]="currentCategoryId">
+      [categoryId]="currentCategoryId"
+      [sortingOption]="sortingOption">
     </app-products-list>
   </div>
 </div>

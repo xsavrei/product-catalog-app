@@ -41,7 +41,16 @@ export const productCatalogReducer = createReducer(
     ProductCatalogActions.actions.deleteProductById,
     (state, { id }) =>
       new ProductCatalogState({ ...state, products: state.products?.filter(product => product.id !== id) })
-  )
+  ),
+
+  on(
+    ProductCatalogActions.actions.editProduct,
+    (state, { productEdited }) => {
+      const newProductsList = state.products?.filter(product => product.id !== productEdited.id);
+      newProductsList?.push(productEdited)
+     return new ProductCatalogState({ ...state, products: newProductsList ?? state.products}
+      )}
+  ),
 );
 
 export function reducer(state: ProductCatalogState | undefined, action: Action) {

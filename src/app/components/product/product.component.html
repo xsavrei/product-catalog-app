@@ -1,7 +1,7 @@
 <div class="card" *ngIf="product">
   <div class="card-body">
     <div class="d-flex justify-content-between align-content-center">
-      <h5 class="card-title" [title]="product.name">{{ product.name }}</h5>
+      <h5 class="card-title" [title]="product.name" (click)="onClickDetail(product.id)">{{ product.name }}</h5>
       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x"
            viewBox="0 0 16 16" (click)="onClickDelete(product.id)">
         <path
@@ -10,7 +10,7 @@
     </div>
     <img class="card-img-top" [src]="product.image" alt="Card image cap">
     <div class="product-price">
-      <p class="card-text">${{ product.price }}</p>
+      <p class="card-text">{{ product.price  | currency : 'USD' }}</p>
     </div>
   </div>
 </div>

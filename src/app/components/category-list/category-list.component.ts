@@ -4,8 +4,10 @@ import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { Router } from '@angular/router';
 import { UntilDestroy } from '@ngneat/until-destroy';
+import { Store } from '@ngrx/store';
+import { PartialRootState } from '../../store';
 
-interface CategoryNode {
+export interface CategoryNode {
   id: string;
   name: string;
   parentCategoryId?: string;
@@ -60,15 +62,17 @@ export class CategoryListComponent implements OnChanges {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private store: Store<PartialRootState>) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['categories']?.currentValue) {
       this.treeData = this.mapToCategoriesNodes(this.categories);
-      this.treeData?.push(<CategoryNode> { id: '', name: 'All Categories' });
-      this.treeData?.sort((a, b) => a.name.localeCompare(b.name))
-      this.dataSource.data = this.treeData ?? [];
+      if (this.treeData) {
+        this.treeData.push(<CategoryNode> { id: '', name: 'All Categories' });
+        this.treeData.sort((a, b) => a.name.localeCompare(b.name))
+        this.dataSource.data = this.treeData;
+      }
     }
     if (this.currentCategoryId && this.treeControl.dataNodes) {
       this.expandFlatNodes(this.currentCategoryId);

@@ -22,10 +22,17 @@ export const selectAllProducts = createSelector(
   selectProductCatalogState,
   (state: ProductCatalogState) => state.products
 );
+//FIXME upravit tak aby pri vybere kategorie 2 ukazali sa produkty aj z 2.1, 2.2, 2.2.1
+export const selectProductById = (id: string | undefined) => createSelector(
+  selectProductCatalogState,
+  (state: ProductCatalogState) => {
+    return state.products?.find((product) => product.id === id);
+  }
+);
 
 export const selectProductsByCategoryId = (id: string | undefined) => createSelector(
   selectProductCatalogState,
   (state: ProductCatalogState) => {
     return state.products?.filter((product) => product.categoryId === id);
   }
-)
+);

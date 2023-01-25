@@ -1,3 +1,8 @@
+export enum SortingOption {
+  NAME = 'NAME',
+  PRICE = 'PRICE'
+}
+
 export class Category {
   id?: string;
   name?: string;
