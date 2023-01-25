@@ -30,9 +30,10 @@ export class ProductsListComponent implements OnChanges {
         this.products = res;
         this.copyProducts = res;
       });
-    } else if (!changes.categoryId?.currentValue && !this.categoryId) {
+    } else if (changes.categoryId && !this.categoryId) {
       this.store.select(selectAllProducts).subscribe(res => {
         this.products = res;
+        this.copyProducts = res;
       });
     }
     if (this.products) {
