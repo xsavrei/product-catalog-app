@@ -14,7 +14,7 @@ export class ApiService {
   }
 
   getCategoryList(): Observable<Category[]> {
-    const url = 'https://ppl-jobs.s3.eu-west-1.amazonaws.com/product-categories.json'
+    const url = 'http://localhost:4200/assets/categories.json'
     return this.http.get(url).pipe(
       map((response: any) => plainToInstance(Category, response)),
       catchError((err) => throwError(err))
@@ -22,7 +22,7 @@ export class ApiService {
   }
 
   getProductList(): Observable<Product[]> {
-    const url = 'https://ppl-jobs.s3.eu-west-1.amazonaws.com/products.json'
+    const url = 'http://localhost:4200/assets/products.json'
     return this.http.get(url).pipe(
       map((response: any) => plainToInstance(Product, response)),
       catchError((err) => throwError(err))

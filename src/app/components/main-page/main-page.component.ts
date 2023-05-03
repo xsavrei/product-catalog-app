@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { Observable, Subscription } from 'rxjs';
+import { filter, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { PartialRootState, selectActiveCategoryById, selectAllCategories } from '../../store';
 import { Category, Product, SortingOption } from '../../domain/main.domain';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { CategoryNode } from '../category-list/category-list.component';
 
 @UntilDestroy({ arrayName: 'subscriptions' })
@@ -24,8 +25,10 @@ export class MainPageComponent {
   categoriesTree?: CategoryNode[];
   productsToDisplay?: Product[];
   sortingOption?: SortingOption;
+  filterValue?: string;
 
-  constructor(private store: Store<PartialRootState>, private route: ActivatedRoute) {
+  constructor(private store: Store<PartialRootState>, private route: ActivatedRoute,
+              private router: Router) {
 
     this.subscriptions = [
       this.store.select(selectAllCategories).subscribe(res => {
@@ -35,7 +38,15 @@ export class MainPageComponent {
           this.currentCategoryId = params['categoryId'];
           this.activeCategory = this.store.select(selectActiveCategoryById(this.currentCategoryId))
         }
-      )
+      ),
+      this.router.events.pipe(
+        filter(event => event instanceof NavigationEnd),
+        map(event => Boolean(event instanceof NavigationEnd)))
+        .subscribe(event => {
+          if (event) {
+            this.filterValue = '';
+          }
+        })
     ];
   }
 

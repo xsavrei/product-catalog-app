@@ -23,7 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatButtonModule } from '@angular/material/button';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -56,9 +56,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     MatButtonToggleModule,
     ReactiveFormsModule,
-
+    FormsModule,
   ],
   providers: [NgbActiveModal],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

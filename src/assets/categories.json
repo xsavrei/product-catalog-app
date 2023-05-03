@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1638da6d-4507-4a66-8bc7-67f1249407c6",
+    "name": "Category 1",
+    "parentCategoryId": null
+  },
+  {
+    "id": "eb520870-c61a-4e32-b7a9-2f8c42b1e6b9",
+    "name": "Category 2",
+    "parentCategoryId": null
+  },
+  {
+    "id": "ad104b15-daad-41e3-961b-67caf5f4af58",
+    "name": "Category 2.1",
+    "parentCategoryId": "eb520870-c61a-4e32-b7a9-2f8c42b1e6b9"
+  },
+  {
+    "id": "c093645d-cbdd-4bb4-9440-56456e9e6aa3",
+    "name": "Category 2.2",
+    "parentCategoryId": "eb520870-c61a-4e32-b7a9-2f8c42b1e6b9"
+  },
+  {
+    "id": "9649ba96-4e24-438c-8a40-a6cda0f4deb7",
+    "name": "Category 2.2.1",
+    "parentCategoryId": "c093645d-cbdd-4bb4-9440-56456e9e6aa3"
+  },
+  {
+    "id": "0a5607eb-50f4-42f4-8b59-541dd5d8f5af",
+    "name": "Category 3",
+    "parentCategoryId": null
+  },
+  {
+    "id": "221f4f47-ee72-4d46-b4ef-0f05b604b10e",
+    "name": "Category 4",
+    "parentCategoryId": null
+  }
+]

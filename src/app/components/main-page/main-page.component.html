@@ -1,23 +1,27 @@
-<div class="row">
-  <div class="col-md-2 col-sm-12 ">
+<div class="d-flex gap-2">
+  <div>
     <h5 class="card-title"> Products list</h5>
     <app-category-list
       [categories]="categories"
       [currentCategoryId]="currentCategoryId">
     </app-category-list>
   </div>
-  <div class="col-md-10 col-sm-12">
+  <div class="flex-grow-1">
     <div class="d-flex justify-content-between">
       <h5 class="card-title">{{ (activeCategory | async) ?? 'All Products' }}</h5>
-      <select class="form-select" (change)="onSortingOptionChange(sort.value)" #sort>
-        <option selected>Sorting options</option>
-        <option [value]="sortingOptions.NAME">Name</option>
-        <option [value]="sortingOptions.PRICE">Price</option>
-      </select>
+      <div class="d-flex gap-2">
+        <input class="form-control" placeholder="Search products..." [(ngModel)]="filterValue">
+        <select class="form-select" (change)="onSortingOptionChange(sort.value)" #sort>
+          <option selected>Sorting options</option>
+          <option [value]="sortingOptions.NAME">Name</option>
+          <option [value]="sortingOptions.PRICE">Price</option>
+        </select>
+      </div>
     </div>
     <app-products-list
       [categoryId]="currentCategoryId"
-      [sortingOption]="sortingOption">
+      [sortingOption]="sortingOption"
+      [filterValue]="filterValue">
     </app-products-list>
   </div>
 </div>
