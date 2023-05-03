@@ -21,6 +21,7 @@ export class MainPageComponent {
   categories?: Category[];
   activeCategory?: Observable<string | undefined>;
   currentCategoryId?: string;
+
   sortingOption?: SortingOption;
   filterValue?: string;
 
