@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { UntilDestroy } from '@ngneat/until-destroy';
+import { Store } from '@ngrx/store';
 import { filter, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Category, SortingOption } from '../../domain/main.domain';
 import { PartialRootState, selectActiveCategoryById, selectAllCategories } from '../../store';
-import { Category, Product, SortingOption } from '../../domain/main.domain';
-import { Store } from '@ngrx/store';
-import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
-import { CategoryNode } from '../category-list/category-list.component';
 
 @UntilDestroy({ arrayName: 'subscriptions' })
 @Component({
@@ -22,8 +21,6 @@ export class MainPageComponent {
   categories?: Category[];
   activeCategory?: Observable<string | undefined>;
   currentCategoryId?: string;
-  categoriesTree?: CategoryNode[];
-  productsToDisplay?: Product[];
   sortingOption?: SortingOption;
   filterValue?: string;
 
